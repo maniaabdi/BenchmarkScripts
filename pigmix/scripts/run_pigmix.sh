@@ -78,6 +78,9 @@ do
          # Cleanup
          ${PIG_HOME}/bin/pig $hadoop_opts -e rmf "$OUTPUT_DIR/L${i}out"
          echo ""
+       
+         
+         sudo sh -c "/bin/echo 3 > /proc/sys/vm/drop_caches"
 
          # Prepare the run
          cmd="${PIG_HOME}/bin/pig $hadoop_opts -param input=$INPUT_DIR -param output=$OUTPUT_DIR -param factor=$REDUCERS -f L$i.pig"
@@ -103,7 +106,8 @@ do
          # Cleanup
          ${PIG_HOME}/bin/pig $hadoop_opts -e rmf "$OUTPUT_DIR/L${i}out"
          echo ""
-      
+#         sudo sh -c "/bin/echo 3 > /proc/sys/vm/drop_caches"      
+	 #ansible-playbook /mnt/temp/papers/KARIZ/scripts/setup_tools/drop_cache_allnodes.yml 
          # Prepare the run
          cmd="${HADOOP_HOME}/bin/hadoop jar $pigperfjar org.apache.pig.test.pigmix.mapreduce.L$i  $hadoop_opts $INPUT_DIR $OUTPUT_DIR $REDUCERS"
          echo "Running MapReduce Query L$i"
