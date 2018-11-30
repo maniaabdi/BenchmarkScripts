@@ -1,4 +1,4 @@
- SET default_parallel $reducers;
+SET default_parallel $reducers;
 
 supplier = load '$input/supplier' USING PigStorage('|') as (s_suppkey:long, s_name:chararray, s_address:chararray, s_nationkey:int, s_phone:chararray, s_acctbal:double, s_comment:chararray);
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # Show usage if we go less than 3 arguments
-if [ $# -lt 3 ]; then
+if [ $# -lt 4 ]; then
   echo "Usage: $0 input_dir output_dir reducers [hadoop_opts]"
   echo ""
   echo "   input_dir:   The input directory on HDFS"
   echo "   output_dir:  The output directory on HDFS"
   echo "   reducers:    The number of reduce tasks to use per MapReduce job"
+  echo "   read_type:   HDFS or ALLUXIO"
   echo "   hadoop_opts: Optional Hadoop options (-conf or -D)"
   echo ""
   exit 1
@@ -16,7 +17,9 @@ fi
 INPUT_DIR=$1
 OUTPUT_DIR=$2
 REDUCERS=$3
-shift; shift; shift;
+READ_TYPE=$4
+
+shift; shift; shift; shift;
 HADOOP_OPTS="$@"
 
 # Check environment variables
@@ -35,11 +38,16 @@ fi
 declare cmd=""
 declare total_pig_times=0
 
-for ((  i = 1 ;  i <= 22;  i++  ))
+for ((  i = 1 ;  i <= 22;  i++  )) # FIXME: it should be 22, I changed it to two to test the upper layer benchmark
 do
     declare pig_times=0
-   
+    
     # Prepare the run
+    if [ "$READ_TYPE" == "HDFS" ]; then
+        echo "Clear buffer cache on HDFS cluster"
+        ansible-playbook /mnt/temp/papers/KARIZ/scripts/setup_tools/drop_cache_allnodes.yml
+    fi
+    
     echo "Running Pig Query Q$i"
     ${HADOOP_HOME}/bin/hadoop fs -rmr "$OUTPUT_DIR/Q${i}out"
     cmd="${PIG_HOME}/bin/pig $HADOOP_OPTS -param input=$INPUT_DIR -param output=$OUTPUT_DIR -param reducers=$REDUCERS -f queries/Q$i.pig"

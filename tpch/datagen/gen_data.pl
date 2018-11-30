@@ -104,7 +104,7 @@ if (!$ENV{'HADOOP_HOME'})
 }
 
 # Execute the hadoop-env.sh script for environmental variable definitions
-!system qq(. \$HADOOP_HOME/conf/hadoop-env.sh) or die $!;
+!system qq(. \$HADOOP_HOME/etc/hadoop/hadoop-env.sh) or die $!;
 my $hadoop_home = $ENV{'HADOOP_HOME'};
 my $ssh_opts = ($ENV{'HADOOP_SSH_OPTS'}) ? $ENV{'HADOOP_SSH_OPTS'} : "";
 
@@ -127,20 +127,32 @@ if ($num_hosts <= 0)
 }
 
 # Create all the HDFS directories
-if (`$hadoop_home/bin/hadoop fs -stat $HDFS_DIR 2>&1` !~ /cannot stat/) {
+#if (`$hadoop_home/bin/hadoop fs -stat $HDFS_DIR 2>&1` !~ /cannot stat/) {
+if (`$hadoop_home/bin/hadoop fs -test -d $HDFS_DIR`) {
    println qq(ERROR: The directory '$HDFS_DIR' already exists);
    exit(-1);
 }
 println qq(Creating all the HDFS directories);
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/lineitem) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/orders) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/customer) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/partsupp) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/part) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/supplier) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/nation) or die $!;
-!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/region) or die $!;
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/lineitem);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/orders);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/customer);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/partsupp);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/part);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/supplier);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/nation);
+system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/region);
 println qq();
+
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/lineitem) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/orders) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/customer) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/partsupp) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/part) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/supplier) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/nation) or die $!;
+#!system qq($hadoop_home/bin/hadoop fs -mkdir $HDFS_DIR/region) or die $!;
+#println qq();
 
 # Create the execution script that will be sent to the hosts
 open OUTFILE, ">", "gen_and_load.sh" or die $!;
