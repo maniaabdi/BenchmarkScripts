@@ -45,7 +45,8 @@ do
     # Prepare the run
     if [ "$READ_TYPE" == "HDFS" ]; then
         echo "Clear buffer cache on HDFS cluster"
-        ansible-playbook /mnt/temp/papers/KARIZ/scripts/setup_tools/drop_cache_allnodes.yml
+        ansible-playbook ~/drop_cache_allnodes.yml
+        #ansible-playbook /mnt/volume/papers/KARIZ/scripts/setup_tools/drop_cache_allnodes.yml
     fi
     
     echo "Running Pig Query Q$i"
