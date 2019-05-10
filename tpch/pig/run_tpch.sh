@@ -38,7 +38,7 @@ fi
 declare cmd=""
 declare total_pig_times=0
 
-for ((  i = 1 ;  i <= 22;  i++  )) # FIXME: it should be 22, I changed it to two to test the upper layer benchmark
+for ((  i = 1 ;  i <= 22;  i++  )) # FIXME: it should be 22, I changed it for prediction
 do
     declare pig_times=0
     
