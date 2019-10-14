@@ -1,0 +1,10 @@
+Running Pig Query Q1
+Going to run:
+/home/ubuntu/papers/KARIZ/code/pig/bin/pig HDFS -param input=s3a://data/tpch-128G -param output=/tpch/q6_1g_1rep_s3 -param reducers=1 -f queries/Q1.pig
+
+Q1 times (sec):	2
+
+Running Pig Query Q2
+Going to run:
+/home/ubuntu/papers/KARIZ/code/pig/bin/pig HDFS -param input=s3a://data/tpch-128G -param output=/tpch/q6_1g_1rep_s3 -param reducers=1 -f queries/Q2.pig
+

@@ -1,0 +1,20 @@
+Running Pig Query Q1
+Going to run:
+/home/ubuntu/papers/KARIZ/code/pig/bin/pig -param input=s3a://data/tpch-128G -param output=/tpch/q6_128g_1rep_s3 -param reducers=1 -f queries/Q1.pig
+
+200
+200
+200
+200
+200
+Q1 times (sec):	3823
+
+Running Pig Query Q2
+Deleted /tpch/q6_128g_1rep_s3/Q2out
+Going to run:
+/home/ubuntu/papers/KARIZ/code/pig/bin/pig -param input=s3a://data/tpch-128G -param output=/tpch/q6_128g_1rep_s3 -param reducers=1 -f queries/Q2.pig
+
+200
+200
+200
+200
